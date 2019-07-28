@@ -1,0 +1,57 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/userConsole/userConsole",
+        "pages/storageConsole/storageConsole",
+        "pages/databaseGuide/databaseGuide",
+        "pages/addFunction/addFunction",
+        "pages/deployFunctions/deployFunctions",
+        "pages/chooseLib/chooseLib",
+        "pages/openapi/openapi",
+        "pages/userCenter/userCenter",
+        "pages/chart/chart",
+        "pages/addItem/addItem",
+        "pages/seeDetail/seeDetail",
+        "pages/wishingList/wishingList",
+        "pages/echart/pie/index"
+    ],
+    "window": {
+        "backgroundColor": "#f6f6f6",
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#41C5AD",
+        "navigationBarTitleText": "斑马记账",
+        "navigationBarTextStyle": "white"
+    },
+    "tabBar": {
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "首页",
+                "iconPath": "icons/bottom-tabs/index-1.png",
+                "selectedIconPath": "icons/bottom-tabs/index-2.png"
+            },
+            {
+                "pagePath": "pages/chart/chart",
+                "text": "图表",
+                "iconPath": "icons/bottom-tabs/chart-1.png",
+                "selectedIconPath": "icons/bottom-tabs/chart-2.png"
+            },
+            {
+                "pagePath": "pages/wishingList/wishingList",
+                "text": "清单",
+                "iconPath": "icons/bottom-tabs/discover-1.png",
+                "selectedIconPath": "icons/bottom-tabs/discover-2.png"
+            },
+            {
+                "pagePath": "pages/userCenter/userCenter",
+                "text": "个人",
+                "iconPath": "icons/bottom-tabs/usercenter-1.png",
+                "selectedIconPath": "icons/bottom-tabs/usercenter-2.png"
+            }
+        ],
+        "color": "#353535",
+        "selectedColor": "#41C5AD",
+        "borderStyle": "black"
+    },
+    "sitemapLocation": "sitemap.json"
+}

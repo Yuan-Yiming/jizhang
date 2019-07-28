@@ -1,0 +1,35 @@
+<!--miniprogram/pages/userCenter/userCenter.wxml-->
+  <!-- 用户 openid -->
+<view class="container">
+  <view class='user-center-header'>
+    <view class='user-info'>
+      <view class="user-avatar" bindtap='uploadAvatar'>
+        <open-data type="userAvatarUrl" wx:if="{{ !userAvatarUrl }}"></open-data>
+        <image src='{{ userAvatarUrl }}'  wx:if="{{ userAvatarUrl }}"></image>
+      </view>
+      <view class='user-info-detail'>
+        <open-data type="userNickName" class="nick-name"></open-data>
+        <!-- <open-data type="userGender" lang="zh_CN" class="user-gender"></open-data> -->
+      </view>
+    </view>
+    <view class='using-info'>
+      <view class='using-info-num'>
+        <text wx:for="{{ usingInfo }}" class=''>{{ item.num }}</text>
+      </view>
+      <view class='using-info-item'>
+        <text wx:for="{{ usingInfo }}">{{ item.item }}</text>
+      </view>
+    </view>
+  </view>
+  <view class='wrapper-1 item-wrapper'>
+    <view class='my-wallet item'><text class='icon icon-item icon-qianbao-1'>我的钱包</text><text class='icon icon-youjiantou'></text></view>
+  </view>
+  <view class='wrapper-2 item-wrapper'>
+    <view class='app-skin item'><text class='icon icon-item icon-zhuti'>主题皮肤</text><text class='icon icon-youjiantou'></text></view>
+    <view class='wishing-list item'><text class='icon icon-item icon-xinyuan-1'>心愿清单</text><text class='icon icon-youjiantou'></text></view>
+    <view class='regular-jizhang item'><text class='icon icon-item icon-dingqi'>定期记账</text><text class='icon icon-youjiantou'></text></view>
+  </view>
+  <view class='wrapper-3 item-wrapper'>
+    <view class='setting item'><text class='icon icon-item icon-shezhi-1'>设置</text><text class='icon icon-youjiantou'></text></view>
+  </view>
+</view>

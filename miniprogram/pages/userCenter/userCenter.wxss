@@ -1,0 +1,109 @@
+page {
+  background: #f6f6f6;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+/* 用户信息 */
+.user-center-header {
+  width: 100%;
+  background: #41C5AD;
+  box-shadow: 0px 0px 5px #bbb;
+}
+.user-info {
+  /* height: 40px; */
+  width: 100%;
+  text-align: center;
+  color: #fff;
+  padding-bottom: 18px; 
+}
+.user-info .user-avatar {
+  margin: 0px auto;
+  margin-bottom: 6px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow: 0px 0px 5px #aaa;
+}
+.user-info .user-info-detail {
+  font-size: 16px;
+}
+.user-info .nick-name {
+  padding: 0 10px;
+}
+.user-info .user-gender {
+  padding: 0 10px;
+}
+/* 用户使用情况 */
+.using-info {
+  width: 100%;
+  height: 60px;
+  /* background: #41C5AD; */
+  color: #fff;
+}
+.using-info .using-info-num {
+  overflow: hidden;
+  height: 30px;
+  line-height: 30px;
+  font-size: 20px;
+}
+.using-info .using-info-item {
+  overflow: hidden;
+  height: 20px;
+  line-height: 20px;
+  font-size: 14px;
+  color: #efefef;
+}
+.using-info .using-info-num text, .using-info .using-info-item text {
+  text-align: center;
+  float: left;
+  width: 33.33%;
+}
+/* 下面列表 */
+.wrapper-1, .wrapper-2, .wrapper-3 {
+    width: 100%;
+    box-shadow: 0 0 5px #ddd;
+    margin-top: 10px;
+}
+.wrapper-2 .item:first-child, .wrapper-2 .item:nth-child(2) {
+    margin-bottom: 2px;
+}
+.item-wrapper .item {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    background: #fff;
+    padding-left: 40px;
+    box-sizing: border-box;
+    position: relative;
+}
+.item-wrapper .item .icon-item {
+    display: inline-block;
+    height: 50px;
+    line-height: 50px;
+    font-size: 16px;
+    color: #363636;
+    position: relative;
+}
+.item-wrapper .item .icon-item::before {
+    position: absolute;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    width: 30px;
+    top: 10px;
+    left: -30px;
+    font-size: 20px;
+    margin-right: 5px;
+}
+.item-wrapper .item .icon-youjiantou {
+    position: absolute;
+    right: 12px;
+}
+.item-wrapper .item .icon-youjiantou::before {
+    color: #bbb;
+    font-size: 16px;
+}
+
+

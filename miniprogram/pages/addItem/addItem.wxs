@@ -1,0 +1,44 @@
+// 格式化显示日期
+var formatDate = function (date) {
+    return date.slice(5);
+}
+// 判断备注内容是否为空
+var remarkContent = function (remark) {
+    return remark ? remark : "添加备注";
+}
+// 获取当前时间
+var getCurTime = function () {
+    var now = getDate();
+    var y = now.getFullYear();
+    var m = now.getMonth() + 1;
+    var d = now.getDate();
+
+    m = m > 9 ? m : '0' + m;
+    d = d > 9 ? d : '0' + d;
+    return y + '-' + m + '-' + d;
+}
+// 判断当天时间
+var getCurDate = function (date) {
+    if (!date) {
+        var curTime = getCurTime();
+        return curTime.slice(5)
+    } else {
+        return date.slice(5);
+    }
+}
+// 判断当前月份
+var getCurMonth = function (month) {
+    if (!month) {
+        var curTime = getCurTime();
+        return curTime.slice(0, -3);
+    } else {
+        return month;
+    }
+}
+module.exports = {
+    formatDate: formatDate,
+    remarkContent: remarkContent,
+    getCurTime: getCurTime,
+    getCurDate: getCurDate,
+    getCurMonth: getCurMonth
+}

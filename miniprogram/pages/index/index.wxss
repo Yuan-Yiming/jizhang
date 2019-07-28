@@ -1,0 +1,432 @@
+/**index.wxss**/
+page {
+  background: #f6f6f6;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+/* 顶部容器 */
+.header-wrapper {
+  box-sizing: border-box;
+  padding: 0 20px;
+  height: 120px;
+  width: 100%;
+  background: #41C5AD;
+  color: #fff;
+  position: fixed;
+  z-index: 5;
+}
+.header-wrapper .header-title {
+  height: 30px;
+  line-height: 30px;
+  font-size: 16px;
+  /* background: red; */
+}
+.header-wrapper .balance {
+  /* text-align: center; */
+  height: 30px;
+  line-height: 30px;
+  font-size: 18px;
+}
+.header-wrapper .total {
+  height: 40px;
+  line-height: 40px;
+  font-size: 30px;
+}
+.header-wrapper .date-picker {
+  float: right;
+  font-size: 14px;
+}
+.header-wrapper .month {
+  padding: 3px 10px;
+  border: 1px solid #fff;
+  margin-right: -10px;
+  margin-left: 8px;
+  border-radius: 15px;
+  font-family: 'iconfont';
+}
+.header-wrapper .month::after {
+  content: ' \e605';
+  font-size: 12px;
+}
+.header-wrapper .expense, .header-wrapper .income {
+  box-sizing: border-box;
+  height: 40px;
+  line-height: 40px;
+  display: inline-block;
+  /* width: 50%; */
+  font-size: 14px;
+}
+.header-wrapper .expense {
+  text-align: right;
+  padding-right: 10px;
+}
+.header-wrapper .income {
+  text-align: left;
+  padding-left: 10px;
+}
+/* 支出，收入选择按钮 */
+.select-btn {
+  width: 100%;
+  height: 46px;
+  line-height: 46px;
+  font-size: 14px;
+  position: fixed;
+  top: 120px;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0 0 5px #ddd;
+  z-index: 5;
+  /* box-shadow: 0px 5px 5px -5px #bbb; */
+}
+.select-btn .all-btn, .select-btn .expense-btn, .select-btn .income-btn {
+  display: inline-block;
+  text-align: center;
+  width: 60px;
+  height: 26px;
+  line-height: 26px;
+  box-sizing: border-box;
+  /* border: 1px solid #bbb; */
+  background: #e5e5e5;
+  color: #aaa;
+  box-shadow: 0px 1px 2px 0px #bbb;
+  /* box-shadow: 0px 0px 5px #c5c5c5; */
+  border-radius: 15px;
+}
+.select-btn .expense-btn {
+  margin: 0 20px;
+}
+.select-btn .income-btn {
+
+}
+.select-btn .is-selected {
+  background: #41C5AD;
+  /* border-color: #41C5AD; */
+  color: #fff;
+}
+/* 添加记账按钮 */
+.add-item-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #41C5AD;
+  box-shadow: 0px 0px 5px #aaa;
+  opacity: 0.8;
+}
+.add-item-btn::after {
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+  content: '\e66d';
+  font-size: 30px;
+  font-family: 'iconfont';
+  color: #fff;
+}
+/* 底部tabs */
+.bottom-tabs {
+  position: fixed;
+  bottom: 0;
+  height: 60px;
+  width: 100%;
+  background: #fff;
+  box-shadow: 0px 0px 5px #ddd;
+}
+.bottom-tabs .tab {
+  margin-top: 36px;
+  display: inline-block;
+  width: 25%;
+  height: 24px;
+  line-height: 24px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 14px;
+  position: relative;
+  color: #363636;
+}
+.bottom-tabs .tab::before {
+  width: 40px;
+  text-align: center;
+  height: 40px;
+  line-height: 40px;
+  position: absolute;
+  top: -35px;
+  left: calc(50% - 20px);
+  /* background: red; */
+  font-size: 30px;
+  font-family: 'iconfont';
+  color: #aaa;
+}
+.bottom-tabs .is-selected::before {
+  color: #41C5AD;
+}
+.bottom-tabs .tab-1::before {
+  content: '\e66f';
+}
+.bottom-tabs .tab-2::before {
+  content: '\e603';
+}
+.bottom-tabs .tab-3::before {
+  content: '\e602';
+}
+.bottom-tabs .tab-4::before {
+  content: '\e606';
+}
+/* 账单列表 */
+.detail-list {
+  margin-top: 176px;
+  width: 100%;
+  color: #353535;
+  margin-bottom: 0px;
+  /* overflow-x: hidden;
+  overflow-y: auto; */
+}
+.detail-list::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: red;
+}
+/* .detail-list::-webkit-scrollbar {
+   width: 0.03rem;
+   height: 0.2rem;
+   background: #ddd;
+}
+.detail-list::-webkit-scrollbar-thumb {
+   border-radius: 0.1rem;
+   -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);
+   background-color: #999;
+} */
+.detail-list .one-day-wrapper {
+  padding: 5px 10px 0 10px;
+  background: #fff;
+  margin-bottom: 10px;
+  box-shadow: 0px 5px 5px -5px #bbb;
+}
+.detail-list .one-day-wrapper .detail-sum {
+  font-size: 14px;
+  color: #999;
+  overflow: hidden;
+  height: 30px;
+  line-height: 30px;
+}
+.detail-list .one-day-wrapper .detail-sum .detail-date {
+  float: left;
+}
+.detail-list .one-day-wrapper .detail-sum .detail-date::before {
+  content: '\e70e  ';
+  font-family: 'iconfont';
+}
+.detail-list .one-day-wrapper .detail-sum .detail-balance {
+  float: right;
+}
+.detail-list .one-day-wrapper .one-item-wrapper {
+  padding: 0 5px;
+  color: #353535;
+  font-size: 16px;
+  height: 40px;
+  line-height: 40px;
+  /* overflow: hidden; */
+  border-top: 1px solid #eee;
+  position: relative;
+}
+.detail-list .one-day-wrapper .one-item-wrapper .item-cate {
+    float: left;
+}
+
+.detail-list .one-day-wrapper .one-item-wrapper .item-remark {
+    /* display: inline-block; */
+    margin-left: 10px;
+    width: 60%;
+    height: 40px;
+    line-height: 44px;
+    float: left;
+    color: #999;
+    font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    transition: width;
+}
+.detail-list .one-day-wrapper .is-deleting .item-remark {
+    width: calc(60% - 30px);
+}
+.detail-list .one-day-wrapper .one-item-wrapper .item-money {
+    position: relative;
+    right: 0;
+    transition: right 0.2s;
+    float: right;
+    /* color: green; */
+}
+.detail-list .one-day-wrapper .one-item-wrapper .expense-style {
+    /* color: red; */
+}
+.detail-list .one-day-wrapper .is-deleting .item-money {
+    right: 50px;
+}
+.detail-list .one-day-wrapper .one-item-wrapper .del-item {
+    float: right;
+    font-size: 16px;
+    width: 60px;
+    height: 100%;
+    text-align: center;
+    background: rgba(255,0,0,0.8);
+    color: #fff;
+    margin-right: -15px;
+    transition: right 0.2s;
+    position: absolute;
+    right: -60px;
+    overflow: hidden;
+}
+.detail-list .one-day-wrapper .is-deleting .del-item {
+    right: 0;
+}
+.detail-list .detail-list-bottom {
+  height: 80px;
+  line-height: 80px;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+  color: #bbb;
+}
+
+
+
+
+
+
+
+
+
+
+.userinfo, .uploader, .tunnel {
+  margin-top: 40rpx;
+  height: 140rpx;
+  width: 100%;
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-left: none;
+  border-right: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  transition: all 300ms ease;
+}
+
+.userinfo-avatar {
+  width: 100rpx;
+  height: 100rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+  background-size: cover;
+  background-color: white;
+}
+
+.userinfo-avatar:after {
+  border: none;
+}
+
+.userinfo-nickname {
+  font-size: 32rpx;
+  color: #007aff;
+  background-color: white;
+  background-size: cover;
+}
+
+.userinfo-nickname::after {
+  border: none;
+}
+
+.uploader, .tunnel {
+  height: auto;
+  padding: 0 0 0 40rpx;
+  flex-direction: column;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+.uploader-text, .tunnel-text {
+  width: 100%;
+  line-height: 52px;
+  font-size: 34rpx;
+  color: #007aff;
+}
+
+.uploader-container {
+  width: 100%;
+  height: 400rpx;
+  padding: 20rpx 20rpx 20rpx 0;
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.uploader-image {
+  width: 100%;
+  height: 360rpx;
+}
+
+.tunnel {
+  padding: 0 0 0 40rpx;
+}
+
+.tunnel-text {
+  position: relative;
+  color: #222;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.tunnel-text:first-child {
+  border-top: none;
+}
+
+.tunnel-switch {
+  position: absolute;
+  right: 20rpx;
+  top: -2rpx;
+}
+
+.disable {
+  color: #888;
+}
+
+.service {
+  position: fixed;
+  right: 40rpx;
+  bottom: 40rpx;
+  width: 140rpx;
+  height: 140rpx;
+  border-radius: 50%;
+  background: linear-gradient(#007aff, #0063ce);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  transition: all 300ms ease;
+}
+
+.service-button {
+  position: absolute;
+  top: 40rpx;
+}
+
+.service:active {
+  box-shadow: none;
+}
+
+.request-text {
+  padding: 20rpx 0;
+  font-size: 24rpx;
+  line-height: 36rpx;
+  word-break: break-all;
+}

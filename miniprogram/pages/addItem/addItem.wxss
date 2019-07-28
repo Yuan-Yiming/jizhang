@@ -1,0 +1,140 @@
+/* pages/addItem/addItem.wxss */
+.select-btn {
+  /* background: #41C5AD; */
+  /* width: 100%; */
+  text-align: center;
+}
+.select-btn .expense-btn, .select-btn .income-btn {
+  display: inline-block;
+  padding: 5px 10px;
+  border: 1px solid #41C5AD;
+  font-size: 14px;
+  /* height: 20px;
+  line-height: 20px;
+  width: 40px;
+  text-align: center; */
+  margin: 10px 0;
+  background: #fff;
+  color: #41C5AD;
+}
+.select-btn .expense-btn {
+  border-radius: 15px 0 0 15px;
+  border-left: 0.5px solid #41C5AD;
+}
+.select-btn .income-btn {
+  border-radius: 0 15px 15px 0;
+  border-right: 0.5px solid #41C5AD;
+}
+.select-btn .is-selected {
+  background: #41C5AD;
+  color: #fff;
+}
+/* 金额输入区域 */
+.input-area {
+    /* width: 100%; */
+    position: relative;
+}
+.input-area .input-money {
+    /* overflow: hidden; */
+}
+.input-area .input-money input {
+    /* float: left; */
+    color: #353535;
+    font-size: 30px;
+    font-weight: bold;
+    margin: 0 auto;
+    /* margin-left: 20px; */
+    width: calc(100% - 40px);
+    box-sizing: border-box;
+    padding: 5px;
+    padding-left: 40px;
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px solid #999;
+    margin-bottom: 5px;
+    position: relative;
+}
+.input-area .input-money input::before {
+    font-family: 'iconfont';
+    content: '\e62d';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 40px;
+    font-weight: 500;
+    color: #353535;
+}
+/* 选择日期 */
+/* 添加备注 */
+.input-area .select-btn {
+    overflow: hidden;
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 20px;
+    font-size: 16px;
+    text-align: left;
+}
+.input-area .select-btn .date-picker, .input-area .select-btn .add-remark {
+    float: left;
+    min-width: 10%;
+}
+.input-area .select-btn .icon {
+    margin-right: 10px;
+    color: #666;
+}
+.input-area .select-btn .icon::before {
+    display: inline-block;
+    height: 100%;
+    font-size: 16px;
+    color: #999;
+    margin-right: 5px;
+}
+/* 图表区域 */
+.cate-area {
+    width: 100%;
+    /* height: 30px; */
+}
+.cate-area .cate-item {
+    padding-top: 10px;
+    float: left;
+    width: 20%;
+    text-align: center;
+    /* height: 60px; */
+    /* border: 1px solid green; */
+    box-sizing: border-box;
+}
+.cate-area .cate-item .cate-icon {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 50%;
+    background: #eee;
+    /* position: absolute; */
+}
+.cate-area .cate-item .cate-icon.is-selected-icon {
+    background: #41C5AD;
+}
+.cate-area .cate-item .cate-icon::before {
+    font-family: 'iconfont';
+    font-size: 26px;
+    color: #353535;
+}
+.cate-area .cate-item .cate-icon.is-selected-icon::before {
+    color: #fff;
+}
+.cate-area .cate-item .cate-name {
+    font-size: 14px;
+    display: inline-block;
+    width: 100%;
+    height: 20px;
+    line-height: 20px;
+}
+/* 数字键盘区域 */
+.number-keyboard {
+}

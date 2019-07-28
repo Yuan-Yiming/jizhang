@@ -1,0 +1,58 @@
+<!--index.wxml-->
+<wxs src="../addItem/addItem.wxs" module="addItem" />
+<wxs src="./index.wxs" module="index" />
+<view class="container">
+  <view class="header-wrapper">
+    <!-- <view class="header-title">{{ username }}的记账本</view> -->
+    <view class="balance">
+      <text>本月结余(元)</text>
+      <!-- 选择日期 -->
+        <picker mode="date" start="2019-01-01" end="{{ addItem.getCurTime() }}" bindchange="bindMonthChange" class="date-picker" value="{{ addItem.getCurMonth(curMonth) }}" fields="month">
+            <text class='month'>{{ addItem.getCurMonth(curMonth) }}</text>
+        </picker>
+    </view>
+    <view class="total">
+      <text>{{ index.calcMonthlyBalance(detailList, 0) }}</text>
+    </view>
+    <view>
+      <text class="expense">支出：￥{{ index.calcMonthlyBalance(detailList, 1) }}</text>
+      <text class="income">收入：￥{{ index.calcMonthlyBalance(detailList, 2) }}</text>
+    </view>
+  </view>
+  <view class="select-btn">
+    <text class='all-btn {{ curIndex == 0 ? "is-selected" : "" }}' data-index='0' bindtap='selectType'>全部</text>
+    <text class='expense-btn {{ curIndex == 1 ? "is-selected" : "" }}' data-index='1' bindtap='selectType'>支出</text>
+    <text class='income-btn {{ curIndex == 2 ? "is-selected" : "" }}' data-index='2' bindtap='selectType'>收入</text>
+  </view>
+  <view class='detail-list'>
+    <view wx:for="{{ index.filterData(curIndex) }}" wx:for-item="item1"  wx:if="{{ item1.length > 0 }}" class='one-day-wrapper'>
+      <view class='detail-sum'>
+        <text class='detail-date'>{{ item1[0]._date }}</text>
+        <text class='detail-balance'>结余：{{ index.calcBalance(item1, 'money') }} </text>
+      </view>
+      <view wx:for="{{ item1 }}" wx:for-item="item2" wx:if="{{ !item2.is_deleted }}" class='one-item-wrapper {{(isDeletingItemId == item1[0]._id) && (isDeletingItemIndex == item2.index) ? "is-deleting": ""}}' 
+        bindtouchstart='touchStart' 
+        bindtouchend='touchEnd'
+        data-id='{{ item1[0]._id }}'
+        data-index='{{ item2.index }}'>
+        <view class="item-detail" bindtap='toSeeDetail' data-id='{{ item1[0]._id }}' data-index='{{ item2.index }}'>
+            <text class='item-cate'>{{ item2.cate }}</text>
+            <text class='item-remark'>{{ item2.remark }}</text>
+            <text class='del-item' catchtap='delItem' data-id='{{ item1[0]._id }}' data-index='{{ item2.index }}'>删除</text>
+            <text class='item-money {{item2.expense ? "expense-style" : "" }}'>{{ index.formatMoney(item2.money, !item2.expense) }}</text>
+        </view>
+      </view>
+    </view>
+    <view class='detail-list-bottom'>
+      <text>{{ isOver }}</text>
+    </view>
+  </view>
+  
+  <view class='add-item-btn' bindtap="toAddItem"></view>
+  <!-- <view class='bottom-tabs'>
+    <text class='tab tab-1 is-selected'>账单</text>
+    <text class='tab tab-2'>图表</text>
+    <text class='tab tab-3'>发现</text>
+    <text class='tab tab-4' bindtap="onSwitchTab(4)">个人</text>
+  </view> -->
+</view>

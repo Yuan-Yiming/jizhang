@@ -1,0 +1,20 @@
+<!--index.wxml-->
+
+<view class="container">
+    <view class='detail-card'>
+        <view class='detail-header'>
+            <view class='detail-cate'>{{ cate }}</view>
+            <view class='detail-money'>￥{{ rowMoney  }}</view>
+        </view>
+        <view class='detail-content'>
+            <view><text>类型</text><text>{{ type }}</text></view>
+            <view><text>金额</text><text>{{ money }}</text></view>
+            <view><text>日期</text><text>{{ date }}</text></view>
+            <view><text>备注</text><text>{{ remark }}</text></view>
+        </view>
+        <view class='detail-footer'>
+            <button bindtap='toEditItem'>编辑</button>
+            <button bindtap='deleteItem'>删除</button>
+        </view>
+    </view>
+</view>

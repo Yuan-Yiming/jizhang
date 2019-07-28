@@ -1,0 +1,44 @@
+<!--pages/addItem/addItem.wxml-->
+<wxs src="./addItem.wxs" module="addItem" />
+<view class='container'>
+  <!-- 选择按钮 -->
+  <view class='select-btn'>
+    <text class='expense-btn {{ curIndex == 0 ? "is-selected" : "" }}' data-index='0' bindtap='selectType'>支出</text>
+    <text class='income-btn {{ curIndex == 1 ? "is-selected" : "" }}' data-index='1' bindtap='selectType'>收入</text>
+  </view>
+  <!-- 输入区域 -->
+  <view class='input-area'>
+    <view class='input-money'>
+      <input type="text" focus bindinput="whenInput" bindconfirm="whenConfirm" value="{{ curValue }}" placeholder='00.00'/>
+    </view>
+    <view class='select-btn'>
+        <!-- 选择日期 -->
+        <picker mode="date" start="2019-01-01" end="{{ addItem.getCurTime() }}" bindchange="bindDateChange" class="date-picker" wx:if="{{ !isAddingRemark }}" value="{{ curDate }}">
+            <text class='icon icon-riqi'>{{ addItem.getCurDate(curDate) }}</text>
+        </picker>
+        <!-- 添加备注 -->
+        <view class='icon icon-beizhu add-remark' wx:if="{{ !isAddingRemark }}" bindtap="toAddItem">
+            {{ addItem.remarkContent(curRemark) }}
+        </view>
+        <input type="text" focus value="{{ curRemark }}" bindblur="whenRemarkBlur" bindinput="whenRemarkInput" placeholder='备注一下呗~' wx:if="{{ isAddingRemark }}" class="input-remark"/>
+    </view>
+    <!-- <view class='input-remark'>
+      <text></text>
+      <textarea></textarea>
+    </view> -->
+  </view>
+  <!-- 分类标签区域 -->
+  <view class='cate-area'>
+    <view wx:for="{{ curIndex == 0 ? expenseIcons : incomeIcons }}" class="cate-item">
+        <icon class="cate-icon {{ item.name == curSelectedName ? 'is-selected-icon' : '' }} {{ 'icon-' + item.py_name }}" bindtap="selectCate" data-cate="{{ item.py_name }}" data-name="{{ item.name }}"></icon>
+        <text class='cate-name'>{{ item.name }}</text>
+    </view>
+    <view class="add-new-cate">
+        <icon class="add-new-cate-icon"></icon>
+    </view>
+  </view>
+  <!-- 数字输入键盘 -->
+  <view class='number-keyboard'>
+    
+  </view>
+</view>
