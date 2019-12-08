@@ -1,28 +1,69 @@
 <!--miniprogram/pages/wishingList/wishingList.wxml-->
 <wxs src="../addItem/addItem.wxs" module="addItem" />
+<wxs src="../index/index.wxs" module="index" />
+<wxs src="./chart.wxs" module="chart" />
 <view class="container">
+
     <view class="header">
-        <view class='money'>
-            <text>2345.67</text><text>5763.44</text><text>3376.24</text>
-        </view>
-        <view class='type'>
-            <text>总支出</text><text>总收入</text><text>总结余</text>
-        </view>
-    </view>
-    <view class='selector'>
-        <text class='btn btn-1' bindtap='selectChartType' data-index='1'>饼图</text>
-        <text class='btn btn-2' bindtap='selectChartType' data-index='2'>折线图</text>
-        <picker mode="date" start="2019-01-01" end="{{ addItem.getCurTime() }}" bindchange="bindMonthChange" class="date-picker" value="{{ addItem.getCurMonth(curMonth) }}" fields="month">
-            <text class='month'>{{ addItem.getCurMonth(curMonth) }}</text>
+      <view class='selector'>
+        <picker mode="date" start="2019-01-01" end="{{ addItem.getCurTime() }}" bindchange="bindMonthChange" class="date-picker" value="{{ addItem.getCurMonth(curDate) }}" fields="month">
+              <text class='month'>{{ addItem.getCurMonth(curDate) }}</text>
         </picker>
+        <text class='btn btn-1 {{ _index==1 ? "selected" : "" }}' bindtap='selectChartType' data-index='1'>支出</text>
+        <text class='btn btn-2 {{ _index==2 ? "selected" : "" }}' bindtap='selectChartType' data-index='2'>收入</text>
     </view>
-    <view class='chart-wrapper' wx-if="{{ _index == 1 }}">
-        <ec-canvas id="mychart-dom-pie" canvas-id="mychart-pie" ec="{{ ec1 }}" bind:init="echartInit1">
-        </ec-canvas>
-    </view>
-    <view class='chart-wrapper' wx-if="{{ _index == 2 }}">
-        <ec-canvas id="mychart-dom-line" canvas-id="mychart-line" ec="{{ ec2 }}" bind:init="echartInit2">
-        </ec-canvas>
+        <view class='type'>
+          <text>结余</text>
+          <text>支出</text>
+          <text>收入</text>
+        </view>
+        <view class='money'>
+            <text>{{ index.calcMonthlyBalance(detailList, 0) }}</text>
+            <text>{{ index.calcMonthlyBalance(detailList, 1) }}</text>
+            <text>{{ index.calcMonthlyBalance(detailList, 2) }}</text>
+        </view>
     </view>
 
+
+    <!-- 折线图 -->
+    <view class='chart-wrapper chart-line'>
+      <view class="chart-title">{{ addItem.getCurMonth(curDate) }} 
+        <text wx:if="{{ _index==1 }}">支出</text>
+        <text wx:if="{{ _index==2 }}">收入</text>
+      </view>
+      <ec-canvas id="mychart-dom-line" canvas-id="mychart-line" ec="{{ ec2 }}" bind:init="initEchartLine">
+      </ec-canvas>
+    </view>
+
+    <!-- 横向柱状图 or 饼图-->
+    <view class="bar-wrap">
+      <view class="bar-title-wrap">
+        <view class="bar-title">
+          <text wx:if="{{ _index==1 }}">支出</text>
+          <text wx:if="{{ _index==2 }}">收入</text>
+          <text>排行榜</text>
+        </view>
+      </view>
+      <view wx:for="{{ cateArray }}" wx:if="{{ chart.showCateItem(item, _index) }}" class="bar-item">
+        <view class="item-icon">
+          <icon class="cate-icon {{ 'icon-' + item.icon }}"></icon>
+        </view>
+        <view class="item-percent">
+          <view class="item-name">
+            {{ item.name }}
+            {{ index.calcPercent(index.calcMonthlyBalance(detailList, _index), item.total) }}
+          </view>
+          <view class="precent-line" style="width: {{ index.calcPercent(index.calcMonthlyBalance(detailList, _index), item.total) }}">
+          </view>
+        </view>
+        <view class="item-total">
+          <view class="money">{{ item.total }}</view>
+          <view class="number">{{ item.number }}笔</view> 
+        </view>
+      </view>
+    </view>
+    <!-- <view class='chart-wrapper chart-pie'>
+        <ec-canvas id="mychart-dom-pie" canvas-id="mychart-pie" ec="{{ ec1 }}" bind:init="initEchartPie">
+        </ec-canvas>
+    </view> -->
 </view>

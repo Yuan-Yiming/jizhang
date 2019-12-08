@@ -27,9 +27,9 @@ var allList, expenseList, incomeList;
 
 // 计算本月结余
 var calcMonthlyBalance = function (dataList, index) {
-    allList = _filterData(dataList, 0);
-    expenseList = _filterData(dataList, 1);
-    incomeList = _filterData(dataList, 2);
+    allList = __filterData(dataList, 0);
+    expenseList = __filterData(dataList, 1);
+    incomeList = __filterData(dataList, 2);
     var count1 = 0;
     var count2 = 0;
     var count0 = 0;
@@ -68,49 +68,41 @@ var formatMoney = function (money, bool) {
         return '-' + money.toFixed(2);
     }
 }
+
 // 过滤显示的数据：全部、支出、收入
-var _filterData = function (_dataList, index) {
-    var dataList = []
-    for (var i = 0; i < _dataList.length; i++) {
-        var id = _dataList[i]._id
-        var date = _dataList[i].date;
-        var arr = _dataList[i].items_array;
-        var _arr = [];
-        date = date.slice(0, 4) + '-' + date.slice(4, 6) + '-' + date.slice(6);
-        for (var j = 0; j < arr.length; j++) {
-            arr[j].index = j;
-            if (!arr[j].is_deleted) {
-                arr[j]._date = date;
-                arr[j]._id = id;
-                _arr.push(arr[j]);
-            }
-            
-        }
-        dataList.push(_arr);
-    }
-    // console.log(_dataList)
+var __filterData = function (_dataList, index) {
+    var dataList = [];
     if (index == 0) {
-        return dataList;
-    } else if (dataList) {
-        var tempList = [];
-        var where;
-        if (index == 1) {
-            where = true;
-        } else {
-            where = false;
-        }
-        for (var i = 0; i < dataList.length; i++) {
-            var _tempList = [];
-            for (var j = 0; j < dataList[i].length; j++) {
-                if (dataList[i][j].expense == where) {
-                    _tempList.push(dataList[i][j]);
+        dataList = _dataList;
+    } else if (index == 1) {
+        for (var i = 0; i < _dataList.length; i++) {
+            if (!dataList[i]) {
+                dataList[i] = [];
+            }
+            var _arr = _dataList[i];
+            for (var j = 0; j < _arr.length; j++) {
+                if (_arr[j].expense) {
+                    dataList[i].push(_arr[j]);
                 }
             }
-            tempList.push(_tempList)
         }
-        return tempList
+    } else {
+        for (var i = 0; i < _dataList.length; i++) {
+            if (!dataList[i]) {
+                dataList[i] = [];
+            }
+            var _arr = _dataList[i];
+            for (var j = 0; j < _arr.length; j++) {
+                if (!_arr[j].expense) {
+                    dataList[i].push(_arr[j]);
+                }
+            }
+        }
     }
+
+    return dataList;
 }
+
 
 // 过滤显示的数据：全部、支出、收入
 var filterData = function (index) {
@@ -123,9 +115,19 @@ var filterData = function (index) {
     }
 }
 // 日期格式化
-var formatDate = function (date) {
-    return date.slice(0, 10);
+var formatDate = function (dateStr, str) {
+    return dateStr.slice(0, 4) + str + dateStr.slice(4, 6) + str + dateStr.slice(6, 8);
 }
+
+// 计算百分比
+var calcPercent = function (parent, son) {
+  var p = parseFloat(parent);
+  var s =  parseFloat(son);
+  var ret = (100 * s / p).toFixed(2) + '%';
+  return ret;
+}
+
+
 // 数组排序
 module.exports = {
     getMax: getMax,
@@ -133,5 +135,6 @@ module.exports = {
     formatMoney: formatMoney,
     calcMonthlyBalance: calcMonthlyBalance,
     filterData: filterData,
-    formatDate: formatDate
+    formatDate: formatDate,
+    calcPercent: calcPercent
 }

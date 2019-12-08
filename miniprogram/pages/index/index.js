@@ -1,5 +1,25 @@
 //index.js
 const app = getApp()
+wx.$getFormatedPeriod = function(year, month){
+  let startTime = 0
+  let endTime = 0
+  let today = new Date()
+  let y, m, d
+  if (!year && !month) {
+    y = today.getFullYear()
+    m = today.getMonth() + 1
+    d = today.getDate()
+  } else {
+    let lastDay = new Date(year, month + 1, 0)
+    y = year
+    m = month + 1
+    d = lastDay.getDate()
+  }
+
+  startTime = '' + y + (m > 9 ? m : '0' + m) + '01'
+  endTime = '' + y + (m > 9 ? m : '0' + m) + (d > 9 ? d : '0' + d)
+  return [startTime, endTime]
+}
 
 Page({
     data: {
@@ -15,57 +35,82 @@ Page({
         curMonth: '',
         detailList: [],   // 当前账单详情列表
         isDeletingItemId: "", // 将要被删除项目的id
-        isDeletingItemIndex: -1, 
         isDeleting: false,   // 正在删除
-        isOver: '亲，账单已经拉到底啦~', // '亲，账单已经拉到底啦~'
+        isOverText: '亲，账单已经拉到底啦~',
         x1: 0,
         x2: 0,
         y1: 0,
         y2: 0,
+        needRefresh: false
     },
     onLoad: function () {
-        if (app.globalData.openid) {
-        this.setData({
-            openid: app.globalData.openid
-        })
-        } else {
-            app.getUserOpenIdViaCloud()
-            .then(openid => {
-                this.setData({
-                    openid
-                })
-                return openid
-            }).catch(err => {
-                console.error(err)
-                wx.showToast({
-                    icon: 'none',
-                    title: '初始化失败，请检查网络'
-                })
-            })
-        }
+        this.getDetailData()
         // 获取用户信息
+      wx.authorize({
+        scope: 'scope.userInfo',
+        success() {
+          wx.getUserInfo({
+            success: res => {
+              this.setData({
+                avatarUrl: res.userInfo.avatarUrl,
+                userInfo: res.userInfo,
+              })
+            }
+          })
+        }
+      })
         wx.getSetting({
             success: res => {
-                if (res.authSetting['scope.userInfo']) {
-                // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
-                wx.getUserInfo({
+                console.log(res)
+                if (!res.authSetting['scope.userInfo']) {
+                  wx.authorize({
+                    scope: 'scope.userInfo',
+                    success() {
+                      wx.getUserInfo({
+                        success: res => {
+                          this.setData({
+                            avatarUrl: res.userInfo.avatarUrl,
+                            userInfo: res.userInfo,
+                          })
+                        },
+                      })
+                    },
+                    fail: err => {
+                      console.error(err)
+                    }
+                  })
+                } else {
+                  // 已经授权，可以直接调用 getUserInfo 获取头像昵称，不会弹框
+                  wx.getUserInfo({
                     success: res => {
-                    this.setData({
+                      this.setData({
                         avatarUrl: res.userInfo.avatarUrl,
                         userInfo: res.userInfo,
-                    })
+                      })
                     }
-                })
+                  })
                 }
             }
         })
+        // wx.getSetting({
+        //   success(res) {
+        //     if (!res.authSetting['scope.record']) {
+        //       wx.authorize({
+        //         scope: 'scope.record',
+        //         success() {
+        //           // 用户已经同意小程序使用录音功能，后续调用 wx.startRecord 接口不会弹窗询问
+        //           wx.startRecord()
+        //         }
+        //       })
+        //     }
+        //   }
+        // })
     },
     onShow: function () {
         this.setData({
             isDeletingItemId: "",
             curMonth: ""
         })
-        this.getDetailData();
     },
     // 选择查看月份
     bindMonthChange(e){
@@ -92,7 +137,7 @@ Page({
         let index = e.currentTarget.dataset.index
 
         wx.navigateTo({
-            url: '/pages/seeDetail/seeDetail?id=' + id + '&index=' + index
+            url: '/pages/seeDetail/seeDetail?id=' + id
         })
     },
     // 选择账单查看类型
@@ -110,126 +155,75 @@ Page({
     // 如果不传year/month参数，即获取当前月份的数据
     getDetailData(year, month){
         this.setData({
-            isOver: '',
+            isOverText: '',
             detailList: []
         })
-        // wx.showLoading({
-        //     title: '数据加载中',
-        // })
         const db = wx.cloud.database()
         const comm = db.command
-        var period = this.getFormatedPeriod(year, month)
+        var period = wx.$getFormatedPeriod(year, month)
         const startTime = period[0]
         const endTime = period[1]
-        let detailObj = {}
-        var _detailList = []
-        let where = {
-            _openid: this.data.openid,
-            date: comm.lte(endTime).and(comm.gte(startTime))
+        // let where = {
+        //     _openid: this.data.openid,
+        //     date_str: comm.lte(endTime).and(comm.gte(startTime))
+        // }
+        // 调用云函数
+        if (!this.data.openid) {
+            this.onGetOpenid(endTime, startTime);
+        } else {
+            let openid = this.data.openid
+            this.getDataByCloud(openid, endTime, startTime);
         }
-        db.collection('date_items').where(where).orderBy('date', 'desc').get({
-            success: (res) => {
-                var dataList = res.data
-                // for (var item of dataList) {
-                //     _detailList.push(item.items_array)
-                // }
-                // console.log('_' ,_detailList)
+        
+    },
+
+    // 云函数
+    getDataByCloud(openid, endTime, startTime){
+        wx.showLoading({
+            title: '加载中',
+          })
+        wx.cloud.callFunction({
+            name: 'getitem',
+            data: {
+                _openid: openid,
+                endTime: endTime,
+                startTime: startTime
+            },
+            success: res => {
+                let data = res.result.data
+                let _dataList = []
+                for (let item of data) {
+                    let len = _dataList.length
+                    let last_date_str = len > 0 ? _dataList[len - 1][0].date_str : ''
+                    if (last_date_str && item.date_str == last_date_str) {
+                        _dataList[len - 1].push(item)
+                    } else {
+                        _dataList[len] = [item]
+                    }
+                }
                 this.setData({
-                    detailList: dataList
+                    detailList: _dataList
                 })
             },
-            fail: err => {
+            fail: (err) => {
+                console.error('[云函数] [getitem] 调用失败', err)
                 wx.showToast({
                     icon: 'none',
                     title: '查询记录失败'
                 })
-                console.error('[数据库] [查询记录] 失败：', err)
             },
             complete: () => {
+                wx.hideLoading()
+                this.setData({
+                    isOverText: '亲，账单已经拉到底啦~'
+                });
             }
-        });
-        // wx.hideLoading()
-        this.setData({
-            isOver: '亲，账单已经拉到底啦~'
-        });
+        })
     },
     // 根据年月来获取当月的时间段
     // 如果不传year/month参数，即获取当前月份的时间段
-    getPeriod(year, month){
-        let startTime = null
-        let endTime = null
-        let today = new Date()
-        if (!year && !month) {
-            var year = today.getFullYear()
-            var month = today.getMonth()
-            startTime = new Date(year, month, 1)
-            endTime = new Date()
-        } else {
-            startTime = new Date(year, month, 1)
-            endTime = new Date(year, month + 1, 0)
-        }
-        
-        return [startTime, endTime]
-    },
     // 获取格式化日期日间
-    getFormatedPeriod(year, month){
-        let startTime = 0
-        let endTime = 0
-        let today = new Date()
-        let y, m, d
-        if (!year && !month) {
-            y = today.getFullYear()
-            m = today.getMonth() + 1
-            d = today.getDate()
-        } else {
-            let lastDay = new Date(year, month + 1, 0)
-            y = year
-            m = month + 1
-            d = lastDay.getDate()
-        }
-
-        startTime = y + (m > 9 ? m : '0' + m) + '01'
-        endTime = y + (m > 9 ? m : '0' + m) + (d > 9 ? d : '0' + d)
-        return [startTime, endTime]
-        // return [parseInt(startTime), parseInt(endTime)]
-    },
-    // 获取前一天的日期
-    getYesterday(date){
-        if (date) {
-            var y = date.getFullYear();
-            var m = date.getMonth();
-            var d = date.getDate() - 1;
-            var _date;
-            if (d > 0) {
-                _date = new Date(y, m, d)
-                return _date;
-            }
-        }
-    },
-    // 克隆某一天
-    // cloneDate(date){
-    //     if (date) {
-    //         var y = date.getFullYear();
-    //         var m = date.getMonth();
-    //         var d = date.getDate();
-    //         var _date = new Date(y, m, d)
-    //         return _date;
-    //     }
-    // },
-    // // 获取该月份最新的一天或者最后一天
-    // getLastDay(year, month){
-    //     // 先判断是否为本月
-    //     var lastDay = null;
-    //     var today = new Date();
-    //     if (!year && !month) {
-    //         return today;
-    //     } else if (month == today.getMonth()) {
-    //         return today;
-    //     } else {
-    //         lastDay = new Date(year, month + 1, 0);
-    //         return lastDay;
-    //     }
-    // },
+    
     // 触摸开始
     touchStart(e){
         this.setData({
@@ -241,16 +235,13 @@ Page({
     touchEnd(e){
         let x2 = e.changedTouches[0].clientX;
         let y2 = e.changedTouches[0].clientY;
-        console.log('e', e)
         if ((this.data.x1 - x2) > 50 && Math.abs(this.data.y1 - y2) < 50) {
             this.setData({
-                isDeletingItemId: e.currentTarget.dataset.id,
-                isDeletingItemIndex: e.currentTarget.dataset.index,
+                isDeletingItemId: e.currentTarget.dataset.id
             })
         } else if ((this.data.x1 - x2) < -50 && Math.abs(this.data.y1 - y2) < 50) {
             this.setData({
-                isDeletingItemId: "",
-                isDeletingItemIndex: -1,
+                isDeletingItemId: ""
             })
         }
     },
@@ -263,24 +254,15 @@ Page({
             isDeleting: true
         });
         let _id = e.currentTarget.dataset.id;
-        let index = e.currentTarget.dataset.index;
         const db = wx.cloud.database();
-        const item = db.collection('date_items').doc(_id);
-        item.get({
+        const item = db.collection('jizhang_item').doc(_id);
+        item.remove({
             success: (res) => {
-                var arr = res.data.items_array
-                arr[index].is_deleted = true;
-                item.update({
-                    data: {
-                        items_array: arr
-                    },
-                    success: res => {
-                        wx.showToast({
-                            title: '删除成功'
-                        })
-                        this.getDetailData()
-                    }
+                wx.showToast({
+                    title: '删除成功'
                 })
+                this.getDetailData()
+                wx.$getCurData(app.globalData.openid)
             },
             fail: err => {
                 wx.showToast({
@@ -305,24 +287,27 @@ Page({
         }
     },
 
-    onGetOpenid: function() {
+    onGetOpenid: function(endTime, startTime) {
         // 调用云函数
         wx.cloud.callFunction({
-        name: 'login',
-        data: {},
-        success: res => {
-            console.log('[云函数] [login] user openid: ', res.result.openid)
-            app.globalData.openid = res.result.openid
-            wx.navigateTo({
-            url: '../userConsole/userConsole',
-            })
-        },
-        fail: err => {
-            console.error('[云函数] [login] 调用失败', err)
-            wx.navigateTo({
-            url: '../deployFunctions/deployFunctions',
-            })
-        }
+            name: 'login',
+            data: {},
+            success: res => {
+                app.globalData.openid = res.result.openid
+                this.setData({
+                    openid: app.globalData.openid
+                })
+                // 获取数据
+                let openid = this.data.openid
+                this.getDataByCloud(openid, endTime, startTime)
+            },
+            fail: err => {
+                console.error('[云函数] [login] 调用失败', err)
+                wx.showToast({
+                    icon: 'none',
+                    title: '初始化失败，请检查网络'
+                })
+            }
         })
     },
 })

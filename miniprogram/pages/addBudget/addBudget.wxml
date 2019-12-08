@@ -1,0 +1,24 @@
+<view class="container">
+  <view class="title">
+    月总预算
+    <icon class="icon icon-bianji edit-btn" bindtap="editBudget" wx:if="{{ !isEditing }}">
+    </icon>
+  </view>
+  <!-- <view class="date-range">2019-09-01至2019-09-30</view> -->
+  <view class="remain {{ remainIsMinus ? 'minus' : '' }}" wx:if="{{ !isEditing }}">
+    <view class="bg" style="top: {{percent}}"></view>
+    <view class="content">
+      <view wx:if="{{ remainIsMinus }}">超额</view>
+      <view wx:if="{{ !remainIsMinus }}">剩余</view>
+      <view>{{ remain }}</view>
+    </view>
+  </view>
+  <view class="date-line" wx:if="{{ !isEditing }}">
+    <text class="expend">支出：<text class="money">{{ expend }}</text></text>
+    <text class="budget">预算：<text class="money">{{ budget }}</text></text>
+  </view>
+  <view class="input-area" wx:if="{{ isEditing }}">
+    <input type="text" focus bindinput="whenInput" bindconfirm="whenConfirm" value="{{ curValue }}" placeholder='编辑预算...'/>
+  </view>
+  
+</view>

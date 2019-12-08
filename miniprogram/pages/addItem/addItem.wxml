@@ -20,7 +20,7 @@
         <view class='icon icon-beizhu add-remark' wx:if="{{ !isAddingRemark }}" bindtap="toAddItem">
             {{ addItem.remarkContent(curRemark) }}
         </view>
-        <input type="text" focus value="{{ curRemark }}" bindblur="whenRemarkBlur" bindinput="whenRemarkInput" placeholder='备注一下呗~' wx:if="{{ isAddingRemark }}" class="input-remark"/>
+        <input type="text" focus value="{{ curRemark }}" bindblur="whenRemarkBlur" bindinput="whenRemarkInput" placeholder='备注一下~' wx:if="{{ isAddingRemark }}" class="input-remark"/>
     </view>
     <!-- <view class='input-remark'>
       <text></text>

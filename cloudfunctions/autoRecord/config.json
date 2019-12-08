@@ -1,0 +1,9 @@
+{
+  "triggers": [
+    {
+      "name": "autoRecord",
+      "type": "timer",
+      "config": "*/5 * * * * * *"
+    }
+  ]
+}

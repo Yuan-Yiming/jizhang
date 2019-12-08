@@ -1,9 +1,7 @@
 // pages/addItem/addItem.js
-Page({
+const app = getApp()
 
-    /**
-     * 页面的初始数据
-     */
+Page({
     data: {
         curIndex: 0,
         expenseIcons: [
@@ -22,13 +20,12 @@ Page({
     onLoad: function (options) {
         if (options.id) {
             this.setData({
-                itemId: options.id,
-                itemIndex: parseInt(options.index)
+                itemId: options.id
             })
             const db = wx.cloud.database()
-            let itemDetail = db.collection('date_items').doc(this.data.itemId).get({
+            let itemDetail = db.collection('jizhang_item').doc(this.data.itemId).get({
                 success: res => {
-                    let item = res.data.items_array[this.data.itemIndex]
+                    let item = res.data
 
                     this.setData({
                         curSelectedName: item.cate,
@@ -126,7 +123,7 @@ Page({
         })
     },
     // 格式化日期 -- '20190713'
-    getFormatedDate(){
+    getFormatedDate(date){
         var date, y, m, d;
         if (this.data.curDate) {
             date = new Date(this.data.curDate);
@@ -139,8 +136,7 @@ Page({
 
         m = m > 9 ? m : '0' + m;
         d = d > 9 ? d : '0' + d;
-
-        return y + m + d;
+        return ('' + y + m + d);
     },
     // 确认记账，有可能是修改，有可能是新增
     whenConfirm(e){
@@ -150,162 +146,91 @@ Page({
                 title: '请输入金额'
             })
             return 
-        }
-        const db = wx.cloud.database()
-        const coll = db.collection('date_items')
-        let dateKey = this.getFormatedDate()
-        if (this.data.itemId) {
-            const itemObj = coll.doc(this.data.itemId)
-            console.log(12345678)
-            itemObj.get({
-                success: (res) => {
-                    // 未改变日期修改detail
-                    if (res.data.date == dateKey) {
-                        let arr = res.data.items_array
-                        let item = arr[this.data.itemIndex]
-                        item.money = parseFloat(e.detail.value),
-                        item.date = new Date(this.data.curDate),
-                        item.cate = this.data.curSelectedName,
-                        item.expense = this.data.curIndex == 0 ? true : false,
-                        item.remark = this.data.curRemark,
-                        itemObj.update({
-                            data: {
-                                items_array: arr
-                            },
-                            success: res => {
-                                console.log('同日期修改成功！')
-                                wx.switchTab({
-                                    url: '/pages/index/index',
-                                }),
-                                wx.showToast({
-                                    title: '修改成功'
-                                })
-                            }
-                        })
-                    } else {    // 这里有修改日期
-                        let _arr = res.data.items_array
-                        _arr[this.data.itemIndex].is_deleted = true
-                        console.log('11111111111', _arr)
-                        itemObj.update({
-                            data: {
-                                items_array: _arr
-                            }
-                        })
-
-                        coll.where({
-                            date: dateKey
-                        }).get({
-                            success: res => {
-                                var newItem = {
-                                    money: parseFloat(e.detail.value),
-                                    date: new Date(this.data.curDate),
-                                    cate: this.data.curSelectedName,
-                                    expense: this.data.curIndex == 0 ? true : false,
-                                    remark: this.data.curRemark,
-                                }
-                                if (res.data[0]) {
-                                    let _id = res.data[0]._id;
-                                    let itemsArray = res.data[0]['items_array'];
-                                    itemsArray.push(newItem)
-                                    coll.doc(_id).update({
-                                        data: {
-                                            items_array: itemsArray
-                                        },
-                                        success: () => {
-                                            wx.switchTab({
-                                                url: '/pages/index/index',
-                                            })
-                                            wx.showToast({
-                                                title: '记账成功',
-                                            })
-                                        },
-                                    })
-                                } else {
-                                    coll.add({
-                                        data: {
-                                            date: this.getFormatedDate(),
-                                            items_array: [newItem]
-                                        },
-                                        success: () => {
-                                            console.log(1234)
-                                            wx.switchTab({
-                                                url: '/pages/index/index',
-                                            })
-                                            wx.showToast({
-                                                title: '记账成功',
-                                            })
-                                        },
-                                    })
-                                }
-                            }
-                        })
-
-                    }
-                },
-                fail: err => {
-                    wx.showToast({
-                        icon: 'none',
-                        title: '修改失败',
-                    })
-                    console.error('[数据库] [修改记录] 失败：', err)
-                },
-                complete: () => {
-                    this.setData({
-                        isDeleting: false
-                    })
-                }
-            })
-           
+        } else if (this.data.itemId) {
+            this.editItem(this.data.itemId, e)
         } else {
-            let formatedDate = this.getFormatedDate()
-            let newItem = {
+            this.creatItem(e)
+        }
+    },
+    // 新增一个item
+    creatItem(e) {
+        const db = wx.cloud.database()
+        const coll = db.collection('jizhang_item')
+        coll.add({
+            data: {
                 money: parseFloat(e.detail.value),
                 date: this.data.curDate ? new Date(this.data.curDate) : new Date(),
+                date_str: this.getFormatedDate(),
                 cate: this.data.curSelectedName,
                 expense: this.data.curIndex == 0 ? true : false,
                 remark: this.data.curRemark,
-            }
-            coll.where({
-                date: formatedDate
-            }).get({
-                success: res => {
-                    if (res.data[0]) {
-                        let _id = res.data[0]._id;
-                        let itemsArray = res.data[0]['items_array'];
-                        itemsArray.push(newItem)
-                        coll.doc(_id).update({
-                            data: {
-                                items_array: itemsArray
-                            },
-                            success: () => {
-                                wx.switchTab({
-                                    url: '/pages/index/index',
-                                })
-                                wx.showToast({
-                                    title: '记账成功',
-                                })
-                            },
-                        })
-                    } else {
-                        coll.add({
-                            data: {
-                                date: formatedDate,
-                                items_array: [newItem]
-                            },
-                            success: () => {
-                                wx.switchTab({
-                                    url: '/pages/index/index',
-                                })
-                                wx.showToast({
-                                    title: '记账成功',
-                                })
-                            },
-                        })
-                    }
-                }
-            })
-        }
+            },
+            success: () => {
+              wx.reLaunch({
+                  url: '/pages/index/index'
+              })
+              wx.showToast({
+                  title: '记账成功!',
+              })
+              wx.$getCurData(app.globalData.openid);
+            },
+            fail: err => {
+                wx.showToast({
+                    icon: 'none',
+                    title: '记账失败',
+                })
+                console.error('[数据库] [增加记录] 失败：', err)
+            },
+            complete: () => {}
+        })
     },
+    // 修改一个item
+    editItem(id, e) {
+        const db = wx.cloud.database()
+        const coll = db.collection('jizhang_item')
+        const item = coll.doc(id)
+        if (item) {
+            item.get({
+                success: res => {
+                    item.update({
+                        data: {
+                          money: parseFloat(e.detail.value),
+                          date: new Date(this.data.curDate),
+                          date_str: this.getFormatedDate(),
+                          cate: this.data.curSelectedName,
+                          expense: this.data.curIndex == 0 ? true : false,
+                          remark: this.data.curRemark,
+                        },
+                        success: res => {
+                          wx.reLaunch({
+                              url: '/pages/index/index'
+                          }),
+                          wx.showToast({
+                              title: '修改成功'
+                          })
+                          wx.$getCurData(app.globalData.openid);
+                        },
+                        fail: err => {
+                          wx.showToast({
+                              icon: 'none',
+                              title: '修改失败',
+                          })
+                          console.error('[数据库] [修改记录] 失败：', err)
+                        },
+                        complete: () => {}
+                    })
+                },
+                fail: err => {
+                  wx.showToast({
+                      icon: 'none',
+                      title: '修改失败',
+                  })
+                  console.error('[数据库] [修改记录] 失败：', err)
+                },
+                complete: () => {}
+            })
+        }},
+
     // 当输入时检查输入内容是否为符合规定的数字
     whenInput(e){
         // event.detail = { value, cursor, keyCode },

@@ -1,9 +1,10 @@
 <!--miniprogram/pages/userCenter/userCenter.wxml-->
   <!-- 用户 openid -->
 <view class="container">
+  <!-- 顶部 -->
   <view class='user-center-header'>
     <view class='user-info'>
-      <view class="user-avatar" bindtap='uploadAvatar'>
+      <view class="user-avatar">
         <open-data type="userAvatarUrl" wx:if="{{ !userAvatarUrl }}"></open-data>
         <image src='{{ userAvatarUrl }}'  wx:if="{{ userAvatarUrl }}"></image>
       </view>
@@ -12,24 +13,32 @@
         <!-- <open-data type="userGender" lang="zh_CN" class="user-gender"></open-data> -->
       </view>
     </view>
-    <view class='using-info'>
-      <view class='using-info-num'>
-        <text wx:for="{{ usingInfo }}" class=''>{{ item.num }}</text>
+    <view class='header-info'>
+      <view class='info-num'>
+        <text><text class="remain {{remainIsMinus ? 'minus' : ''}}">{{ remain }}</text> <text class="unit"> 元</text></text>
+        <text>{{ recordTimes }} <text class="unit"> 笔</text></text>
+        <!-- <text><text class="message-num {{messageNum < 10 ? 'less-then-10' : ''}}">{{ messageNum }}</text></text> -->
       </view>
-      <view class='using-info-item'>
-        <text wx:for="{{ usingInfo }}">{{ item.item }}</text>
+      <view class='info-item'>
+        <text><text wx:if="{{!remainIsMinus}}">剩余</text>预算<text wx:if="{{remainIsMinus}}">超额</text></text>
+        <text>本月记账</text>
+        <!-- <text>消息通知</text> -->
       </view>
     </view>
   </view>
-  <view class='wrapper-1 item-wrapper'>
-    <view class='my-wallet item'><text class='icon icon-item icon-qianbao-1'>我的钱包</text><text class='icon icon-youjiantou'></text></view>
-  </view>
+  <!-- 功能列表 -->
+  <!-- <view class='wrapper-1 item-wrapper'>
+    <view class='my-wallet item' bindtap="navigateTo" data-page="myAccount"><text class='icon icon-item icon-qianbao-1'>我的账户</text><text class='icon icon-youjiantou'></text></view>
+  </view> -->
   <view class='wrapper-2 item-wrapper'>
-    <view class='app-skin item'><text class='icon icon-item icon-zhuti'>主题皮肤</text><text class='icon icon-youjiantou'></text></view>
-    <view class='wishing-list item'><text class='icon icon-item icon-xinyuan-1'>心愿清单</text><text class='icon icon-youjiantou'></text></view>
-    <view class='regular-jizhang item'><text class='icon icon-item icon-dingqi'>定期记账</text><text class='icon icon-youjiantou'></text></view>
+    <!-- <view class='regular-jizhang item' bindtap="navigateTo" data-page="sortCategory"><text class='icon icon-item icon-fenlei'>记账分类</text><text class='icon icon-youjiantou'></text></view>
+    <view class='regular-jizhang item' bindtap="navigateTo" data-page="autoRecord"><text class='icon icon-item icon-dingqi'>定期记账</text><text class='icon icon-youjiantou'></text></view> -->
+    <!-- <view class='wishing-list item' bindtap="navigateTo" data-page="wishingList"><text class='icon icon-item icon-xinyuan-1'>愿望清单</text><text class='icon icon-youjiantou'></text></view> -->
+    <view class='wishing-list item' catchtap="navigateTo" data-page="addBudget"><text class='icon icon-item icon-yusuan'>每月预算</text><text class='icon icon-youjiantou'></text></view>    
   </view>
   <view class='wrapper-3 item-wrapper'>
-    <view class='setting item'><text class='icon icon-item icon-shezhi-1'>设置</text><text class='icon icon-youjiantou'></text></view>
   </view>
+  <button class="recommend" open-type='share'>推荐给好友</button>
+  <view class="version">版本 {{ version }}</view>
 </view>
+<!-- <view class='app-skin item' bindtap="toMyWallet"><text class='icon icon-item icon-zhuti'>主题皮肤</text><text class='icon icon-youjiantou'></text></view> -->

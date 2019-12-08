@@ -1,0 +1,15 @@
+<view class="container">
+  <view class="header-wrap  {{noteIsClosed ? 'is-closed' : ''}}">
+    <view class="header">
+      亲爱的，你心里面是否曾经有过很多的愿望，但最终都因为没有足够的钱或者其它原因而不得不放弃？
+      在这里，把你的愿望一个个都写下来吧，即使现在无法实现，也不要紧的。
+      相信终有一天，你会拥有足够的能力与财富去实现你的一个个愿望的。
+      或许这些愿望最终并没有能够实现，但我希望你至少为之奋斗过！加油，不要放弃！！
+      <view class="header-cap"></view>
+      <view class="draw-up-btn icon icon-click" bindtap="closeNote"></view>
+    </view> 
+  </view>
+  <button class="add-btn icon icon-plus" bindtap="addWish">
+  </button>
+  <view class="adding-text">添加一条新愿望吧~</view>
+</view>

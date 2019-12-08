@@ -6,9 +6,12 @@ page {
 }
 /* 用户信息 */
 .user-center-header {
+  position: relative;
   width: 100%;
   background: #41C5AD;
   box-shadow: 0px 0px 5px #bbb;
+  margin-bottom: 40px;
+  padding-bottom: 30px;
 }
 .user-info {
   /* height: 40px; */
@@ -32,42 +35,88 @@ page {
 .user-info .nick-name {
   padding: 0 10px;
 }
-.user-info .user-gender {
-  padding: 0 10px;
-}
 /* 用户使用情况 */
-.using-info {
-  width: 100%;
-  height: 60px;
+.header-info {
+  left: 5%;
+  bottom: -30px;
+  position: absolute;
+  width: 90%;
+  /* height: 60px; */
   /* background: #41C5AD; */
-  color: #fff;
+  background-color: #fff;
+  border-radius: 4px;
+  box-shadow: 1px 1px 5px rgba(50,50,50,.3);
+  color: #262626;
+  z-index: 10;
+  padding: 5px 0;
 }
-.using-info .using-info-num {
+.header-info .info-num {
   overflow: hidden;
   height: 30px;
   line-height: 30px;
   font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: #41C5AD;
+  /* background: red; */
 }
-.using-info .using-info-item {
+.header-info .info-num .minus {
+  color: rgba(255,0,0,.5);
+}
+.header-info .info-num .unit {
+  color: #999;
+  font-size: 14px;
+  font-weight: normal;
+}
+.header-info .info-item {
   overflow: hidden;
   height: 20px;
   line-height: 20px;
   font-size: 14px;
-  color: #efefef;
+  color: #262626;
+  /* background: blue; */
 }
-.using-info .using-info-num text, .using-info .using-info-item text {
+.header-info .info-num > text, .header-info .info-item > text {
   text-align: center;
   float: left;
-  width: 33.33%;
+  width: 50%;
+  box-sizing: border-box;
+  /* background: green; */
 }
+.header-info .info-num > text:first-child, 
+.header-info .info-item > text:first-child {
+  border-right: 0.5px solid #fff;
+}
+.header-info .info-num .message-num {
+  display: inline-block;
+  font-size: 14px;
+  /* width: 25px; */
+  height: 20px;
+  line-height: 20px;
+  padding: 0 5px;
+  text-align: center;
+  border-radius: 50px;
+  background-color: #d32d2d;
+  box-shadow: 0 0 5px rgba(60,60,60,0.5);
+}
+/* 消息小于10时 */
+.header-info .info-num .message-num.less-then-10 {
+  width: 20px;
+  border-radius: 50%;
+  padding: 0;
+}
+
 /* 下面列表 */
 .wrapper-1, .wrapper-2, .wrapper-3 {
     width: 100%;
     box-shadow: 0 0 5px #ddd;
     margin-top: 10px;
 }
-.wrapper-2 .item:first-child, .wrapper-2 .item:nth-child(2) {
+.wrapper-2 .item {
     margin-bottom: 2px;
+}
+.wrapper-2 .item:last-child {
+    margin-bottom: 0px;
 }
 .item-wrapper .item {
     width: 100%;
@@ -105,5 +154,23 @@ page {
     color: #bbb;
     font-size: 16px;
 }
-
+/* 推荐 */
+.recommend {
+  width: 60%;
+  height: 44px;
+  line-height: 44px;
+  text-align: center;
+  background-color: rgba(65,197,173,0.8);
+  border-radius: 4px;
+  margin: 10px auto;
+  color: #fff;
+  font-size: 16px;
+  box-shadow: 0 0 5px rgba(0,0,0,.4);
+}
+/* 版本 */
+.version {
+  color: #999;
+  font-size: 12px;
+  margin-bottom: 30px;
+}
 

@@ -21,14 +21,12 @@ Page({
      */
     onLoad: function (options) {
         this.setData({
-            id: options.id,
-            index: parseInt(options.index)
+            id: options.id
         })
         const db = wx.cloud.database()
-        const itemDetail = db.collection('date_items').doc(this.data.id).get({
+        const itemDetail = db.collection('jizhang_item').doc(this.data.id).get({
             success: res => {
-                let item = res.data.items_array[this.data.index]
-
+                let item = res.data
                 this.setData({
                     cate: item.cate,
                     type: (item.expense ? '支出' : '收入') + '/' + item.cate,
@@ -57,7 +55,7 @@ Page({
     // 跳转到添加账单页面
     toEditItem: function () {
         wx.navigateTo({
-            url: '/pages/addItem/addItem?' + 'id=' + this.data.id + '&index=' + this.data.index,
+            url: '/pages/addItem/addItem?' + 'id=' + this.data.id,
         })
     },
     // 删除内容
@@ -69,24 +67,16 @@ Page({
             isDeleting: true
         })
         const db = wx.cloud.database();
-        const item = db.collection('date_items').doc(this.data.id);
-        item.get({
+        const item = db.collection('jizhang_item').doc(this.data.id);
+        item.remove({
             success: (res) => {
-                var arr = res.data.items_array
-                arr[this.data.index].is_deleted = true;
-                item.update({
-                    data: {
-                        items_array: arr
-                    },
-                    success: res => {
-                        wx.switchTab({
-                            url: '/pages/index/index',
-                        }),
-                        wx.showToast({
-                            title: '删除成功'
-                        })
-                    }
+                wx.reLaunch({
+                    url: '/pages/index/index'
+                }),
+                wx.showToast({
+                    title: '删除成功'
                 })
+                wx.$getCurData(app.globalData.openid)
             },
             fail: err => {
                 wx.showToast({

@@ -1,0 +1,15 @@
+<wxs src="./autoRecord.wxs" module="autoRecord" />
+<view class="container">
+  <view class="auto-record-list">
+    <view wx:for="{{ autoRecordList }}" class="auto-record-item">
+      <view class="line-1">{{ item.cate }} {{ autoRecord.formatedMoney(item) }}</view>
+      <view class="line-2">
+        <view class="record-gap">{{ autoRecord.formatedGap(item) }}</view>
+        <view class="start-date">{{ item.startDate }} 起</view>
+      </view>
+    </view>
+  </view>
+  <button class="add-btn icon icon-plus" bindtap="addRecord">
+  </button>
+</view>
+

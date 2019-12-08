@@ -1,16 +1,22 @@
 // miniprogram/pages/wishingList/wishingList.js
 Page({
-
-    /**
-     * 页面的初始数据
-     */
     data: {
-
+      noteIsClosed: false
     },
-
-    /**
-     * 生命周期函数--监听页面加载
-     */
+    // 关闭信封
+    closeNote() {
+      this.setData({
+        noteIsClosed: true
+      });
+    },
+    // 
+    addWish() {
+      wx.showToast({
+        title: '该功能未上线！',
+        icon: 'none',
+        duration: 500
+      })
+    },
     onLoad: function (options) {
 
     },

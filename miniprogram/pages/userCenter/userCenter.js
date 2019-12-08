@@ -1,108 +1,95 @@
-//index.js
 const app = getApp()
+const db = wx.cloud.database()
+const _ = db.command
+const budget = db.collection('budget')
+const jizhang = db.collection('jizhang_item')
+
+wx.$myBudget = 0
+wx.$myRemain = null
 
 Page({
   data: {
-    userAvatarUrl: '',
-    userInfo: {},
-    logged: false,
-    takeSession: false,
     requestResult: '',
-    username: '大明',
-    usingInfo: [
-      {
-        item: '已连续打卡',
-        num: 3
-      },
-      {
-        item: '总记账天数',
-        num: 12
-      },
-      {
-        item: '总记账笔数',
-        num: 24
+    version: 'v1.0.2',
+    recordTimes: 0,
+    messageNum: 3,
+    isAddingBudget: true,
+    remain: 0,
+    remainIsMinus: false   // 预算超标 
+  },
+
+  // 转发小程序的参数
+  onShareAppMessage() {
+    return {
+      title: '发现了一个好用的记账工具！',
+      path: '/pages/index/index',
+      imageUrl: '../../images/logo.png',
+    };
+  },
+
+  // 未上线
+  toMyWallet() {
+    wx.showToast({
+      title: '该功能未上线！',
+      icon: 'none',
+      duration: 800
+    })
+  },
+
+  // 跳转到添加某个页面
+  navigateTo: function (e) {
+    let page = e.currentTarget.dataset.page;
+    wx.navigateTo({
+      url: '/pages/' + page + '/' + page,
+    })
+  },
+  
+  // 获取预算
+  getBudget: function () {
+    budget.get().then(res => {
+      if (res.data.length === 0) {
+        wx.$myBudget = '未设置'
+        wx.$myRemain = '未设置'
+      } else {
+        let money = parseFloat(res.data[0].money)
+        wx.$myBudget = money;
+        wx.$myRemain = wx.$myBudget - wx.$curExpense;
       }
-    ]
+      this.setData({
+        remain: (wx.$myRemain).toFixed(2),
+        remainIsMinus: wx.$myRemain > 0 ? false : true
+      })
+    }).catch(err => {
+      console.error('查询失败：', err)
+    })
+  },
+
+  // 获取记账次数
+  getRecordTimes() {
+    let period = wx.$getFormatedPeriod()
+    let start = period[0]
+    let end = period[1]
+    jizhang.where(
+      {
+        date_str: _.gte(start).and(_.lte(end))
+      }
+    ).count()
+    .then(res => {
+      this.setData({
+        recordTimes: res.total
+      })
+    })
+    .catch(err => {
+      console.error(err)
+    })
   },
 
   // 页面加载时调用？
   onLoad: function () {
-    if (!wx.cloud) {
-      wx.redirectTo({
-        url: '../chooseLib/chooseLib',
-      })
-      return
-    }
   },
-    onShow: function () {
-        
-    },
-  // onGetOpenid: function () {
-  //   // 调用云函数
-  //   wx.cloud.callFunction({
-  //     name: 'login',
-  //     data: {},
-  //     success: res => {
-  //       // console.log(res)
-  //       app.globalData.openid = res.result.openid
-  //       wx.navigateTo({
-  //         url: '../userConsole/userConsole',
-  //       })
-  //     },
-  //     fail: err => {
-  //       console.error('[云函数] [login] 调用失败', err)
-  //       wx.navigateTo({
-  //         url: '../deployFunctions/deployFunctions',
-  //       })
-  //     }
-  //   })
-  // },
-
-  // 上传图片
-  uploadAvatar: function () {
-    // 选择图片
-    wx.chooseImage({
-      count: 1,
-      sizeType: ['compressed'],
-      sourceType: ['album', 'camera'],
-      success: res => {
-        wx.showLoading({
-          title: '头像上传中',
-        })
-        // console.log(res);
-        const filePath = res.tempFilePaths[0]
-        // 上传图片
-        const cloudPath = app.globalData.openid + filePath.match(/\.[^.]+?$/)[0]
-        wx.cloud.uploadFile({
-          cloudPath,
-          filePath,
-          success: res => {
-            console.log('[上传文件] 成功：', res)
-            
-            app.globalData.avatarFile = res.fileID
-            app.globalData.cloudPath = cloudPath
-            app.globalData.imagePath = filePath
-
-            this.setData({ userAvatarUrl: app.globalData.avatarFile })
-          },
-          fail: e => {
-            console.error('[上传文件] 失败：', e)
-            wx.showToast({
-              icon: 'none',
-              title: '上传失败',
-            })
-          },
-          complete: () => {
-            wx.hideLoading()
-          }
-        })
-        
-
-      },
-      fail: e => {
-        console.error(e)
-      }
-    })
+  onShow: function () {
+    this.getBudget();
+    this.getRecordTimes();
   },
 
 })

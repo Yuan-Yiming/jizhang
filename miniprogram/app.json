@@ -1,19 +1,18 @@
 {
     "pages": [
         "pages/index/index",
-        "pages/userConsole/userConsole",
-        "pages/storageConsole/storageConsole",
-        "pages/databaseGuide/databaseGuide",
-        "pages/addFunction/addFunction",
-        "pages/deployFunctions/deployFunctions",
-        "pages/chooseLib/chooseLib",
-        "pages/openapi/openapi",
         "pages/userCenter/userCenter",
-        "pages/chart/chart",
+        "pages/chart/chart", 
         "pages/addItem/addItem",
         "pages/seeDetail/seeDetail",
         "pages/wishingList/wishingList",
-        "pages/echart/pie/index"
+        "pages/addWish/addWish",
+        "pages/echart/pie/index",
+        "pages/addBudget/addBudget",
+        "pages/sortCategory/sortCategory",
+        "pages/myAccount/myAccount",
+        "pages/autoRecord/autoRecord",
+        "pages/addAutoRecord/addAutoRecord"
     ],
     "window": {
         "backgroundColor": "#f6f6f6",
@@ -26,25 +25,19 @@
         "list": [
             {
                 "pagePath": "pages/index/index",
-                "text": "首页",
+                "text": "账单明细",
                 "iconPath": "icons/bottom-tabs/index-1.png",
                 "selectedIconPath": "icons/bottom-tabs/index-2.png"
             },
             {
                 "pagePath": "pages/chart/chart",
-                "text": "图表",
+                "text": "统计图表",
                 "iconPath": "icons/bottom-tabs/chart-1.png",
                 "selectedIconPath": "icons/bottom-tabs/chart-2.png"
             },
             {
-                "pagePath": "pages/wishingList/wishingList",
-                "text": "清单",
-                "iconPath": "icons/bottom-tabs/discover-1.png",
-                "selectedIconPath": "icons/bottom-tabs/discover-2.png"
-            },
-            {
                 "pagePath": "pages/userCenter/userCenter",
-                "text": "个人",
+                "text": "个人中心",
                 "iconPath": "icons/bottom-tabs/usercenter-1.png",
                 "selectedIconPath": "icons/bottom-tabs/usercenter-2.png"
             }

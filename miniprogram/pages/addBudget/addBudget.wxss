@@ -1,0 +1,130 @@
+/* pages/addBudget/addBudget.wxss */
+page {
+  background-color: #f6f6f6;
+}
+.container {
+  padding: 20px;
+  background: #fff;
+}
+/* 标题 */
+.container .title {
+  display: inline-block;
+  font-size: 18px;
+  height: 40px;
+  width: 100%;
+  text-align: center;
+  line-height: 40px;
+  position: relative;
+}
+.container .title .edit-btn {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+.container .title .edit-btn::before {
+  font-size: 20px;
+  /* color: rgba(65,197,173,1); */
+  color: #666;
+}
+/* 日期范围 */
+.container .date-range {
+  font-size: 14px;
+  color: #999;
+  height: 20px;
+  line-height: 20px;
+  margin-bottom: 15px;
+}
+/* 剩余 */
+.container .remain {
+  width: 250rpx;
+  height: 250rpx;
+  border-radius: 50%;
+  border: 1px solid rgba(65,197,173,1);
+  margin-bottom: 10px;
+  position: relative;
+  overflow: hidden;
+}
+.container .remain.minus {
+  border: 1px solid rgba(255,0,0,.5);
+}
+.container .remain .bg {
+  position: absolute;
+  width: 250rpx;
+  height: 250rpx;
+  left: 0;
+  background: rgba(65,197,173,.8);
+}
+.container .remain.minus .bg {
+  background: rgba(255,0,0,0.5);
+}
+.container .remain .content {
+  position: absolute;
+  width: 250rpx;
+  height: 250rpx;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  padding-top: 80rpx;
+  text-align: center;
+}
+.container .remain .content view:first-child {
+  font-size: 14px;
+}
+.container .remain .content view:last-child {
+  font-size: 18px;
+}
+/* 数据行 */
+.container .date-line {
+  height: 20px;
+  line-height: 20px;
+  width: 100%;
+  overflow: hidden;
+}
+.container .date-line > text {
+  font-size: 14px;
+  color: #999;
+}
+.container .date-line > text .money {
+  color: #262626;
+  font-size: 16px;
+}
+.container .date-line .expend {
+  float: left;
+}
+.container .date-line .budget {
+  float: right;
+}
+/* 编辑预算 */
+.input-area {
+    /* overflow: hidden; */
+    /* background: red; */
+    margin: 20px 0;
+}
+.input-area input {
+    /* background: blue; */
+    /* float: left; */
+    color: #353535;
+    font-size: 18px;
+    margin: 0 auto;
+    width: 250rpx;
+    text-align: center;
+    box-sizing: border-box;
+    /* padding: 3px 5px; */
+    height: 30px;
+    line-height: 30px;
+    border-bottom: 1px solid #999;
+}
+/* .input-area input::before {
+    font-family: 'iconfont';
+    content: '\e62d';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 50px;
+    text-align: center;
+    line-height: 50px;
+    font-size: 40px;
+    font-weight: 500;
+    color: #353535;
+} */

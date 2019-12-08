@@ -32,12 +32,54 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 0,
+			"current": 6,
 			"list": [
 				{
 					"id": -1,
 					"name": "db guide",
-					"pathName": "pages/databaseGuide/databaseGuide"
+					"pathName": "pages/databaseGuide/databaseGuide",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "userCenter",
+					"pathName": "pages/userCenter/userCenter",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 2,
+					"name": "添加预算",
+					"pathName": "pages/addBudget/addBudget",
+					"query": "",
+					"scene": 1011
+				},
+				{
+					"id": -1,
+					"name": "pages/autoRecord/autoRecord",
+					"pathName": "pages/autoRecord/autoRecord",
+					"query": "定期记账",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/wishingList/wishingList",
+					"pathName": "pages/wishingList/wishingList",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/addWish/addWish",
+					"pathName": "pages/addWish/addWish",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "自动记账添加页面",
+					"pathName": "pages/addAutoRecord/addAutoRecord",
+					"scene": null
 				}
 			]
 		}

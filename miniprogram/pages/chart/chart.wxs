@@ -1,0 +1,23 @@
+// 是否显示在类别，用于筛选支出和收入
+var showCateItem = function (item, index) {
+  if (item.expense && index == 1) {
+    return true;
+  } else if (!item.expense && index == 2) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+// 计算百分比
+var calcPercent = function (parent, son) {
+  var p = parseFloat(parent);
+  var s = parseFloat(son);
+  var ret = (100 * s / p + 5).toFixed(2) + '%';
+  return ret;
+}
+
+module.exports = {
+  showCateItem: showCateItem,
+  calaPercent: calcPercent
+}
