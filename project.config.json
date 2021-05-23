@@ -1,87 +1,96 @@
 {
-	"miniprogramRoot": "miniprogram/",
-	"cloudfunctionRoot": "cloudfunctions/",
-	"setting": {
-		"urlCheck": true,
-		"es6": true,
-		"postcss": true,
-		"minified": true,
-		"newFeature": true
-	},
-	"appid": "wx80007ff566c321bb",
-	"projectname": "app",
-	"libVersion": "2.2.5",
-	"simulatorType": "wechat",
-	"simulatorPluginLibVersion": {},
-	"cloudfunctionTemplateRoot": "cloudfunctionTemplate",
-	"compileType": "miniprogram",
-	"condition": {
-		"search": {
-			"current": -1,
-			"list": []
-		},
-		"conversation": {
-			"current": -1,
-			"list": []
-		},
-		"plugin": {
-			"current": -1,
-			"list": []
-		},
-		"game": {
-			"list": []
-		},
-		"miniprogram": {
-			"current": 6,
-			"list": [
-				{
-					"id": -1,
-					"name": "db guide",
-					"pathName": "pages/databaseGuide/databaseGuide",
-					"query": ""
-				},
-				{
-					"id": -1,
-					"name": "userCenter",
-					"pathName": "pages/userCenter/userCenter",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": 2,
-					"name": "添加预算",
-					"pathName": "pages/addBudget/addBudget",
-					"query": "",
-					"scene": 1011
-				},
-				{
-					"id": -1,
-					"name": "pages/autoRecord/autoRecord",
-					"pathName": "pages/autoRecord/autoRecord",
-					"query": "定期记账",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/wishingList/wishingList",
-					"pathName": "pages/wishingList/wishingList",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "pages/addWish/addWish",
-					"pathName": "pages/addWish/addWish",
-					"query": "",
-					"scene": null
-				},
-				{
-					"id": -1,
-					"name": "自动记账添加页面",
-					"pathName": "pages/addAutoRecord/addAutoRecord",
-					"scene": null
-				}
-			]
-		}
-	}
+  "miniprogramRoot": "miniprogram/",
+  "cloudfunctionRoot": "cloudfunctions/",
+  "setting": {
+    "urlCheck": true,
+    "es6": true,
+    "postcss": true,
+    "minified": true,
+    "newFeature": true,
+    "autoAudits": false,
+    "checkInvalidKey": true,
+    "checkSiteMap": true,
+    "uploadWithSourceMap": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
+    },
+    "useMultiFrameRuntime": true,
+    "bundle": false,
+    "useApiHook": true,
+    "useApiHostProcess": false
+  },
+  "appid": "wx80007ff566c321bb",
+  "projectname": "app",
+  "libVersion": "2.2.5",
+  "simulatorType": "wechat",
+  "simulatorPluginLibVersion": {},
+  "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
+  "compileType": "miniprogram",
+  "condition": {
+    "search": {
+      "list": []
+    },
+    "conversation": {
+      "list": []
+    },
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "id": -1,
+          "name": "db guide",
+          "pathName": "pages/databaseGuide/databaseGuide",
+          "query": ""
+        },
+        {
+          "id": -1,
+          "name": "userCenter",
+          "pathName": "pages/userCenter/userCenter",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": 2,
+          "name": "添加预算",
+          "pathName": "pages/addBudget/addBudget",
+          "query": "",
+          "scene": 1011
+        },
+        {
+          "id": -1,
+          "name": "pages/autoRecord/autoRecord",
+          "pathName": "pages/autoRecord/autoRecord",
+          "query": "定期记账",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/wishingList/wishingList",
+          "pathName": "pages/wishingList/wishingList",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "pages/addWish/addWish",
+          "pathName": "pages/addWish/addWish",
+          "query": "",
+          "scene": null
+        },
+        {
+          "id": -1,
+          "name": "自动记账添加页面",
+          "pathName": "pages/addAutoRecord/addAutoRecord",
+          "scene": null
+        }
+      ]
+    }
+  }
 }

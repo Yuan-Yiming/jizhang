@@ -44,7 +44,7 @@ Page({
                 }
             })
         }
-        
+
     },
     // 格式化时间
     formatDate: date => {
@@ -61,7 +61,7 @@ Page({
         })
     },
     // 添加备注输入框失去焦点
-    whenRemarkBlur(e){
+    whenRemarkBlur(e) {
         this.setData({
             curRemark: e.detail.value,
             isAddingRemark: false
@@ -71,13 +71,13 @@ Page({
     whenRemarkFocus(e) {
     },
     // 选中日期
-    bindDateChange(e){
+    bindDateChange(e) {
         this.setData({
             curDate: e.detail.value
         });
     },
     // 选择记账分类--支出/收入
-    selectType(e){
+    selectType(e) {
         this.setData({
             curIndex: e.currentTarget.dataset.index,
         });
@@ -94,14 +94,14 @@ Page({
         }
     },
     // 选择记账类型 
-    selectCate(e){
+    selectCate(e) {
         this.setData({
             curSelectedIcon: e.currentTarget.dataset.cate,
-            curSelectedName: e.currentTarget.dataset.name 
+            curSelectedName: e.currentTarget.dataset.name
         });
     },
     // 加载记账类型图标
-    getIcons(){
+    getIcons() {
         const db = wx.cloud.database()
         db.collection('category').where({
             expense: true
@@ -123,7 +123,7 @@ Page({
         })
     },
     // 格式化日期 -- '20190713'
-    getFormatedDate(date){
+    getFormatedDate(date) {
         var date, y, m, d;
         if (this.data.curDate) {
             date = new Date(this.data.curDate);
@@ -139,13 +139,13 @@ Page({
         return ('' + y + m + d);
     },
     // 确认记账，有可能是修改，有可能是新增
-    whenConfirm(e){
+    whenConfirm(e) {
         if (!e.detail.value) {
             wx.showToast({
                 icon: 'none',
                 title: '请输入金额'
             })
-            return 
+            return
         } else if (this.data.itemId) {
             this.editItem(this.data.itemId, e)
         } else {
@@ -166,13 +166,13 @@ Page({
                 remark: this.data.curRemark,
             },
             success: () => {
-              wx.reLaunch({
-                  url: '/pages/index/index'
-              })
-              wx.showToast({
-                  title: '记账成功!',
-              })
-              wx.$getCurData(app.globalData.openid);
+                wx.reLaunch({
+                    url: '/pages/index/index'
+                })
+                wx.showToast({
+                    title: '记账成功!',
+                })
+                wx.$getCurData(app.globalData.openid);
             },
             fail: err => {
                 wx.showToast({
@@ -181,7 +181,7 @@ Page({
                 })
                 console.error('[数据库] [增加记录] 失败：', err)
             },
-            complete: () => {}
+            complete: () => { }
         })
     },
     // 修改一个item
@@ -194,45 +194,46 @@ Page({
                 success: res => {
                     item.update({
                         data: {
-                          money: parseFloat(e.detail.value),
-                          date: new Date(this.data.curDate),
-                          date_str: this.getFormatedDate(),
-                          cate: this.data.curSelectedName,
-                          expense: this.data.curIndex == 0 ? true : false,
-                          remark: this.data.curRemark,
+                            money: parseFloat(e.detail.value),
+                            date: new Date(this.data.curDate),
+                            date_str: this.getFormatedDate(),
+                            cate: this.data.curSelectedName,
+                            expense: this.data.curIndex == 0 ? true : false,
+                            remark: this.data.curRemark,
                         },
                         success: res => {
-                          wx.reLaunch({
-                              url: '/pages/index/index'
-                          }),
-                          wx.showToast({
-                              title: '修改成功'
-                          })
-                          wx.$getCurData(app.globalData.openid);
+                            wx.reLaunch({
+                                url: '/pages/index/index'
+                            }),
+                                wx.showToast({
+                                    title: '修改成功'
+                                })
+                            wx.$getCurData(app.globalData.openid);
                         },
                         fail: err => {
-                          wx.showToast({
-                              icon: 'none',
-                              title: '修改失败',
-                          })
-                          console.error('[数据库] [修改记录] 失败：', err)
+                            wx.showToast({
+                                icon: 'none',
+                                title: '修改失败',
+                            })
+                            console.error('[数据库] [修改记录] 失败：', err)
                         },
-                        complete: () => {}
+                        complete: () => { }
                     })
                 },
                 fail: err => {
-                  wx.showToast({
-                      icon: 'none',
-                      title: '修改失败',
-                  })
-                  console.error('[数据库] [修改记录] 失败：', err)
+                    wx.showToast({
+                        icon: 'none',
+                        title: '修改失败',
+                    })
+                    console.error('[数据库] [修改记录] 失败：', err)
                 },
-                complete: () => {}
+                complete: () => { }
             })
-        }},
+        }
+    },
 
     // 当输入时检查输入内容是否为符合规定的数字
-    whenInput(e){
+    whenInput(e) {
         // event.detail = { value, cursor, keyCode },
         var keyCode = e.detail.keyCode;
         var value = e.detail.value;
@@ -252,7 +253,7 @@ Page({
         }
     },
     // 当聚焦时输入框时
-    whenFocus(e){
+    whenFocus(e) {
 
     },
     /**
@@ -303,4 +304,4 @@ Page({
     onShareAppMessage: function () {
 
     }
-    })
+})

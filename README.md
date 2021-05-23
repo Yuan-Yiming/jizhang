@@ -1,7 +1,7 @@
 # 微信小程序 -- 斑马记账
 
 
-## 参考文档
+## 扫码体验
+<img src="./qr_code.jpg">
 
-- [云开发文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)
 

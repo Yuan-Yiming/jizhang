@@ -41,7 +41,8 @@ Page({
         x2: 0,
         y1: 0,
         y2: 0,
-        needRefresh: false
+        needRefresh: false,
+        isTouching: false
     },
     onLoad: function () {
         this.getDetailData()
@@ -136,6 +137,9 @@ Page({
         let id = e.currentTarget.dataset.id
         let index = e.currentTarget.dataset.index
 
+        this.setData({
+          isDeletingItemId: id
+        });
         wx.navigateTo({
             url: '/pages/seeDetail/seeDetail?id=' + id
         })
@@ -226,24 +230,39 @@ Page({
     
     // 触摸开始
     touchStart(e){
+        return;
         this.setData({
-            x1: e.changedTouches[0].clientX,
-            y1: e.changedTouches[0].clientY,
+            // x1: e.changedTouches[0].clientX,
+            // y1: e.changedTouches[0].clientY,
+            isTouching: true,
+            isDeletingItemId: e.currentTarget.dataset.id
         });
+        
     },
     // 触摸结束
     touchEnd(e){
-        let x2 = e.changedTouches[0].clientX;
-        let y2 = e.changedTouches[0].clientY;
-        if ((this.data.x1 - x2) > 50 && Math.abs(this.data.y1 - y2) < 50) {
-            this.setData({
-                isDeletingItemId: e.currentTarget.dataset.id
-            })
-        } else if ((this.data.x1 - x2) < -50 && Math.abs(this.data.y1 - y2) < 50) {
-            this.setData({
-                isDeletingItemId: ""
-            })
-        }
+       this.setData({
+         
+       });
+       setTimeout(() => {
+         this.setData({
+           isTouching: false,
+           isDeletingItemId: ""
+         });
+       }, 100);
+
+      //  原本删除事件
+        // let x2 = e.changedTouches[0].clientX;
+        // let y2 = e.changedTouches[0].clientY;
+        // if ((this.data.x1 - x2) > 50 && Math.abs(this.data.y1 - y2) < 50) {
+        //     this.setData({
+        //         isDeletingItemId: e.currentTarget.dataset.id
+        //     })
+        // } else if ((this.data.x1 - x2) < -50 && Math.abs(this.data.y1 - y2) < 50) {
+        //     this.setData({
+        //         isDeletingItemId: ""
+        //     })
+        // }
     },
     // 删除账单
     delItem(e){

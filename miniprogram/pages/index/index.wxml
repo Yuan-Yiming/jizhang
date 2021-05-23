@@ -30,14 +30,14 @@
         <text class='detail-date'>{{ index.formatDate(item1[0].date_str, '-') }}</text>
         <text class='detail-balance'>结余：{{ index.calcBalance(item1) }} </text>
       </view>
-      <view wx:for="{{ item1 }}" wx:for-item="item2" class='one-item-wrapper {{isDeletingItemId == item2._id ? "is-deleting": ""}}' 
+      <view wx:for="{{ item1 }}" wx:for-item="item2" class='one-item-wrapper {{((isDeletingItemId == item2._id)) ? "to-deleting": ""}}' 
         bindtouchstart='touchStart' 
         bindtouchend='touchEnd'
         data-id='{{ item2._id }}'>
         <view class="item-detail" bindtap='toSeeDetail' data-id='{{ item2._id }}'>
             <text class='item-cate'>{{ item2.cate }}</text>
             <text class='item-remark'>{{ item2.remark }}</text>
-            <text class='del-item' catchtap='delItem' data-id='{{ item2._id }}'>删除</text>
+            <!-- <text class='del-item' catchtap='delItem' data-id='{{ item2._id }}'>删除</text> -->
             <text class='item-money {{item2.expense ? "expense-style" : "" }}'>{{ index.formatMoney(item2.money, !item2.expense) }}</text>
         </view>
       </view>
